@@ -1,0 +1,28 @@
+# Needed for Graylog
+fields_under_root: true
+fields.collector_node_id: ${sidecar.nodeName}
+fields.gl2_source_collector: ${sidecar.nodeId}
+output.logstash:
+   hosts: 
+   - ${user.BeatsInput}
+   ssl:
+   verification_mode: none
+path:
+  data: C:\Program Files\Graylog\sidecar\cache\winlogbeat\data
+  logs: C:\Program Files\Graylog\sidecar\logs
+tags:
+ - windows
+ - test_eventID
+processors:
+  - add_fields:
+      target: ''
+      fields:
+        winlog_api: wineventlog
+        log_level: information
+        winlog_channel: Security
+        winlog_task: test_eventID
+filebeat:
+  inputs:
+    - type: log
+      paths:
+        - C:\Program Files\Graylog\test_eventID.txt

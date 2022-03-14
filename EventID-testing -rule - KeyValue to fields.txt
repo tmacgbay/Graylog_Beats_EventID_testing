@@ -1,0 +1,18 @@
+rule "Testing eventID - set fields"
+when
+    contains(to_string($message.tags),"test_eventID") 
+then
+    let muffin       = to_string($message.message);
+    let keyv_results = key_value(
+        value:               muffin                      ,
+        delimiters:          ","                         ,
+        kv_delimiters:       "="                         ,
+        ignore_empty_values: true                        ,
+        allow_dup_keys:      true                        ,
+        trim_key_chars:      "\""                        ,
+        trim_value_chars:    "\""
+    );
+    set_fields(to_map(keyv_results));    
+    // Route to different reporting structure to not get caught in production reporting/alerting
+    //route_to_stream("testing_stream");
+end
