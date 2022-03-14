@@ -1,13 +1,15 @@
 # Graylog_Beats_EventID_testing
 Menued system for throwing Windows EventID's to a Graylog beats via filebeatInput
 
-Since Graylog and underlying opensource can change how Graylog handles event or how Elasticsearch names fields I have occasionaly run into issues where Alerting stops.
-
 This extensible powershell script will write to a predefined local text file the basic elements of key event ID's that I was interested in at the time of writing.
 
-## Prerequisites:
+Since Graylog and underlying opensource can change how Graylog handles event or how Elasticsearch names fields I have occasionaly run into issues where Alerting stops.   Graylog is not required for this script, it simply writed eventIDs to a text log file in key_value style.
+
+
+
+## Prerequisites if you are doing a Graylog:
 1) Elasticsearch Beats Input on Graylog
-2) Windows test machine with sidecar and filebeat set up - you will run the powershell script on this machine.
+2) Windows test machine with sidecar and filebeat/NXlog set up - you will run the powershell script on this machine.
 3) Test file to throw EventIDs and associated fields to (Currently:  "C:\Program Files\Graylog\test_eventID.log")
 3) Collector to assign to test Windows machine.  Base collector file included.
 4) Pipeline rule to break out the test message to it's constituent fields - set up to parse key_value fields (Rule included)
@@ -43,7 +45,7 @@ Please make a selection:
 ```
 
 ## Extra things to know about how this all works
-### Sidecar Configuration File
+### Sidecar Configuration File (Graylog)
 If you want to have custom fields w/data inserted into all messages you can modify the Sidecar Configuration file.  Here is the portion that adds in for fields that are standard/checked in the EventID environment
 ```yaml
 processors:
